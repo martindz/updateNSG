@@ -9,7 +9,6 @@ foreach( $ip in $newipaddress) {
     #seelct list of NSGs
     $nsg= Get-AzNetworkSecurityGroup -ResourceGroupName $rg
     #check if mentioned NSG exists
-    #$nsg.securityrules.name | where {$_ -like "*local*"}
     #pick appropriate config
     $ruleconfig= $nsg | Get-AzNetworkSecurityRuleConfig | Where-Object {$_.name -like "*local*"}
     #count amount of find
@@ -34,8 +33,7 @@ foreach( $ip in $newipaddress) {
     }
     Write-Host -NoNewLine 'Name of modified NSGs to save: '
     (($nsg | Where-Object {$_.name -eq $rulec[0].id.split("/",10)[8]})| Set-AzNetworkSecurityGroup).Name
-    # Write-Host -NoNewLine 'Press any key to continue...';
-    # $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+    
     Write-Host 'Check for existance of the ip in the NSGs';
     Write-Host "Resource group $rg";
     $nsg= Get-AzNetworkSecurityGroup -ResourceGroupName $rg;
@@ -53,3 +51,4 @@ foreach( $ip in $newipaddress) {
             }
     }
 }
+W
